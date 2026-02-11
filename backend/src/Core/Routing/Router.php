@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Core;
+namespace App\Core\Routing;
 
 class Router
 {
     private array $routes = [];
 
-    public function get(string $uri, string $action): void
+    public function get(string $uri, array $action): void
     {
         $this->routes['GET'][$uri] = $action;
     }
@@ -24,9 +24,8 @@ class Router
             return;
         }
 
-        [$controller, $method] = explode('@', $action);
+        [$controller, $method] = $action;
 
-        $controller = "App\\Controllers\\{$controller}";
         $instance = new $controller();
 
         $instance->$method();
