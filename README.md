@@ -104,6 +104,35 @@ cd backend
 php tests/TestRunner.php
 ```
 
+## 🔐 Endpoints disponíveis
+
+### Login
+
+**POST** /auth/login
+
+Autentica um usuário com email e senha.
+
+**Exemplo de requisição**
+```bash
+curl -X POST 
+http://localhost:8000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@email.com",
+    "password": "123456"
+  }'
+```
+
+**Exemplo de resposta (sucesso)**
+```json
+{
+  "userId": "1",
+  "email": "admin@email.com",
+  "role": "ADMIN",
+  "accessToken": "fake-token-1"
+}
+```
+
 ##  Roadmap
 
 ### Fase 1 - Fundamentos
