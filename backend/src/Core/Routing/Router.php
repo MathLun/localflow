@@ -11,6 +11,11 @@ class Router
         $this->routes['GET'][$uri] = $action;
     }
 
+    public function post(string $uri, array $action): void
+    {
+	$this->routes['POST'][$uri] = $action;
+    }
+
     public function dispatch(): void
     {
         $method = $_SERVER['REQUEST_METHOD'];
@@ -28,6 +33,10 @@ class Router
 
         $instance = new $controller();
 
-        $instance->$method();
+	$body = json_decode(file_get_contents('php://input'), true) ?? [];
+
+	$instance->$method($body);
+
+	echo json_encode($response);
     }
 }
