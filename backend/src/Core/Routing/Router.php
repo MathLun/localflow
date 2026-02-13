@@ -5,6 +5,7 @@ namespace App\Core\Routing;
 class Router
 {
     private array $routes = [];
+    private array $container = [];
 
     public function get(string $uri, array $action): void
     {
@@ -14,6 +15,13 @@ class Router
     public function post(string $uri, array $action): void
     {
 	$this->routes['POST'][$uri] = $action;
+    }
+
+    public function bind(
+	    string $controller,
+	    callable $factory
+    ): void {
+	    $this->container[$controller] = $factory;
     }
 
     public function dispatch(): void
@@ -31,11 +39,16 @@ class Router
 
         [$controller, $method] = $action;
 
-        $instance = new $controller();
+	if (!isset($this->container[$controller]))
+	{
+		$instance = new $controller();
+	} else {
+		$instance = $this->container[$controller]();
+	}
 
 	$body = json_decode(file_get_contents('php://input'), true) ?? [];
 
-	$instance->$method($body);
+	$response = $instance->$method($body);
 
 	echo json_encode($response);
     }
