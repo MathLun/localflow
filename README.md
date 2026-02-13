@@ -96,6 +96,14 @@ cd backend
 php -S localhost:8000 -t public
 ```
 
+## Rodando os testes
+
+Para garantir que todas as features implementadas estão funcionando corretamente, incluindo o Login Flow, você pode rodar os testes automáticos:
+```bash
+cd backend
+php tests/TestRunner.php
+```
+
 ##  Roadmap
 
 ### Fase 1 - Fundamentos
