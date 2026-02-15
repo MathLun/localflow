@@ -209,7 +209,7 @@ Futuramente:
 - [x] Repositório para módulo Auth
 - [x] Testes de integração
 
-**Fase 2 - Application Layer
+**Fase 2 - Application Layer**
 
 - [x] Implementação de UseCases (Auth)
 - [x] Hash de senha
