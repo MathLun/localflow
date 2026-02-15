@@ -3,6 +3,8 @@
 namespace App\Modules\Auth\Domain\Entities;
 
 use App\Modules\Auth\Domain\Exceptions\InvalidUserException;
+use DateTimeImmutable;
+use DateTimeZone;
 
 final class User
 {
@@ -10,6 +12,8 @@ final class User
 	private string $email;
 	private string $passwordHash;
 	private string $role;
+	private string $createdAt;
+	private string $updatedAt;
 
 	private const ALLOWED_ROLES = ['ADMIN', 'RESTAURANT', 'STAFF'];
 
@@ -17,7 +21,9 @@ final class User
 		string $id,
 		string $email,
 		string $passwordHash,
-		string $role
+		string $role,
+		string $createdAt,
+		string $updatedAt
 	) {
 		$email = strtolower(trim($email));
 		$this->validateEmail($email);
@@ -30,15 +36,43 @@ final class User
 
 		$this->passwordHash = $passwordHash;
 		$this->role = $role;
+
+		$this->createdAt = $createdAt;
+		$this->updatedAt = $updatedAt;
 	}
 
 	public static function create(
 		string $id,
 		string $email,
 		string $passwordHash,
-		string $role
+		string $role,
 	): self {
-		return new self($id, $email, $passwordHash, $role);
+		return new self(
+			id: $id, 
+			email: $email, 
+			passwordHash: $passwordHash, 
+			role: $role,
+			createdAt: self::now(),
+			updatedAt: self::now()
+		);
+	}
+
+	public static function fromPersistence(
+		string $id,
+		string $email,
+		string $passwordHash,
+		string $role,
+		string $createdAt,
+		string $updatedAt
+	): self {
+		return new self(
+			id: $id,
+			email: $email,
+			passwordHash: $passwordHash,
+			role: $role,
+			createdAt: $createdAt,
+			updatedAt: $updatedAt
+		);
 	}
 
 	public function validateEmail(string $email): void
@@ -67,6 +101,11 @@ final class User
 		return password_verify($plainPassword, $this->passwordHash);
 	}
 
+	private static function now(): string
+	{
+		return (new DateTimeImmutable('now', new DateTimeZone('America/Sao_Paulo')))->format('Y-m-d H:i:s');
+	}
+
 	public function id(): string
 	{
 		return $this->id;
@@ -85,5 +124,15 @@ final class User
 	public function role(): string
 	{
 		return $this->role;
+	}
+
+	public function createdAt(): string
+	{
+		return $this->createdAt;
+	}
+
+	public function updatedAt(): string
+	{
+		return $this->updatedAt;
 	}
 }

@@ -1,0 +1,16 @@
+# Environment
+.env
+.env.*
+
+# Dependencies (caso use o composer)
+/vendor/
+
+# Runtime
+/storage/*
+!storage/.gitkeep
+
+# Build artifacts
+/dist
+/coverage
+
+
