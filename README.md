@@ -142,7 +142,8 @@ http://localhost:8000/auth/login \
 
 ### Fase 2 - MVP Funcional
 - [x] Sistema de autenticação (Login Flow)
-- [ ] Integração com banco de dados
+- [x] Integração com banco de dados (SQLite)
+- [x] API REST para login
 - [ ] API REST para pedidos
 
 ### Fase 3 - Infraestrutura
