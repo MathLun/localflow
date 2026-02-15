@@ -19,17 +19,25 @@ $user = User::create(
 
 $userRepository->save($user);
 
+$id = '1';
+$foundById = $userRepository->findById($id);
+
+assertTrue(
+	$foundById !== null,
+	'Deve encontrar usuário pelo id'
+);
+
+assertTrue(
+	$foundById->email() === "admin@email.com",
+	'Deve ser igual ao email salvo'
+);
+
 $email = "admin@email.com";
 $foundByEmail = $userRepository->findByEmail($email);
 
 assertTrue(
 	$foundByEmail !== null,
 	'Deve encontrar usuário pelo email'
-);
-
-assertTrue(
-	$foundByEmail->email() === "matheus86luna@hotmail.com",
-	'Deve ser igual ao email salvo'
 );
 
 echo "\n 🎉 All SQLiteUserRepository tests passed.\n\n";

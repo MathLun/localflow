@@ -69,6 +69,19 @@ class SQLiteUserRepository
 
 	public function findById(string $id): ?User
 	{
+		$sql = <<<SQL
+			SELECT * FROM users
+			WHERE id = :id
+			LIMIT 1
+		SQL;
+
+		$stmt = $this->connection->prepare($sql);
+		$stmt->execute([
+			'id' => $id
+		]);
+
+		$data = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $data ? $this->mapToUser($data) : null;
 	}
 
 	private function mapToUser(array $data): User

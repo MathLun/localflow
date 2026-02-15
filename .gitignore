@@ -1,18 +1,3 @@
-# Environment
-.env
-.env.*
-
-# Dependencies (caso use o composer)
-/vendor/
-
-# Runtime
-/storage/*
-!storage/.gitkeep
-
-# Build artifacts
-/dist
-/coverage
-
 # OS / Editor
 .DS_Store
 Thumbs.db
