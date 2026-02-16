@@ -31,6 +31,10 @@ Este projeto utiliza PHP Puro, com uma arquitetura inspirada em boas práticas m
 A estrutura atual está organizada da seguinte forma:
 ```text
 backend
+├── README.md
+├── bin
+│   ├── make_migration.php
+│   └── migrate.php
 ├── bootstrap
 │   └── app.php
 ├── docs
@@ -42,14 +46,26 @@ backend
 │   └── index.php
 ├── src
 │   ├── Core
+│   │   ├── Database
+│   │   │   ├── Database.php
+│   │   │   └── Migrations
+│   │   │       ├── MigrationGenerator.php
+│   │   │       └── MigrationRunner.php
 │   │   └── Routing
-│   │       └── Router.php                                     │   ├── Modules
+│   │       └── Router.php
+│   ├── Modules
 │   │   ├── Auth
 │   │   │   ├── Application
 │   │   │   │   ├── Contracts
-│   │   │   │   │   └── TokenGeneratorInterface.php            │   │   │   │   ├── DTO                                        │   │   │   │   │   └── LoginResponse.php
+│   │   │   │   │   └── TokenGeneratorInterface.php
+│   │   │   │   ├── DTO
+│   │   │   │   │   └── LoginResponse.php
 │   │   │   │   └── UseCases
-│   │   │   │       └── LoginUseCase.php                       │   │   │   ├── Domain                                         │   │   │   │   ├── Entities                                   │   │   │   │   │   └── User.php                               │   │   │   │   ├── Exceptions
+│   │   │   │       └── AuthenticateUserUseCase.php
+│   │   │   ├── Domain
+│   │   │   │   ├── Entities
+│   │   │   │   │   └── User.php
+│   │   │   │   ├── Exceptions
 │   │   │   │   │   ├── InvalidCredentialsException.php
 │   │   │   │   │   └── InvalidUserException.php
 │   │   │   │   └── Repositories
@@ -58,8 +74,10 @@ backend
 │   │   │   │   └── FakeTokenGenerator.php
 │   │   │   ├── Infrastructure
 │   │   │   │   └── Persistence
-│   │   │   │       └── InMemory
-│   │   │   │           └── InMemoryUserRepository.php
+│   │   │   │       ├── InMemory
+│   │   │   │       │   └── InMemoryUserRepository.php
+│   │   │   │       └── SQLite
+│   │   │   │           └── SQLiteUserRepository.php
 │   │   │   └── Presentation
 │   │   │       └── Controllers
 │   │   │           └── LoginController.php
@@ -69,15 +87,20 @@ backend
 │   │   └── System
 │   └── Support
 │       └── Autoload.php
+├── storage
+│   ├── database.sqlite
+│   └── migrations
+│       └── 20260214010310_create_user_table.sql
 └── tests
     ├── Modules
     │   └── Auth
     │       ├── Application
-    │       │   └── LoginUseCaseTest.php
+    │       │   └── AuthenticateUserUseCaseTest.php
     │       ├── Domain
     │       │   └── UserTest.php
     │       ├── Infrastructure
-    │       │   └── InMemoryUserRepositoryTest.php
+    │       │   ├── InMemoryUserRepositoryTest.php
+    │       │   └── SQLiteUserRepositoryTest.php
     │       └── Presentation
     │           └── LoginControllerIntegrationTest.php
     ├── Support

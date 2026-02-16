@@ -41,7 +41,7 @@ Estrutura geral
 │   │   │   │   ├── DTO
 │   │   │   │   │   └── LoginResponse.php
 │   │   │   │   └── UseCases
-│   │   │   │       └── LoginUseCase.php
+│   │   │   │       └── AuthenticateUserUseCase.php
 │   │   │   ├── Domain
 │   │   │   │   ├── Entities
 │   │   │   │   │   └── User.php
@@ -75,7 +75,7 @@ Estrutura geral
     ├── Modules
     │   └── Auth
     │       ├── Application
-    │       │   └── LoginUseCaseTest.php
+    │       │   └── AuthenticateUserUseCaseTest.php
     │       ├── Domain
     │       │   └── UserTest.php
     │       ├── Infrastructure
