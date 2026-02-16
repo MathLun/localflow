@@ -50,6 +50,7 @@ class Router
 
 	$response = $instance->$method($body);
 
-	echo json_encode($response);
+	http_response_code($response->getStatusCode());
+	echo $response->getBody();
     }
 }

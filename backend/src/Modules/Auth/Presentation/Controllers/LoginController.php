@@ -4,6 +4,8 @@ namespace App\Modules\Auth\Presentation\Controllers;
 
 use App\Modules\Auth\Application\UseCases\AuthenticateUserUseCase;
 use App\Modules\Auth\Application\DTO\LoginResponse;
+use App\Modules\Auth\Domain\Exceptions\InvalidCredentialsException;
+use App\Shared\Infrastructure\Http\JsonResponse;
 
 class LoginController
 {
@@ -12,10 +14,21 @@ class LoginController
 		private AuthenticateUserUseCase $usecase
 	) {}
 
-	public function handle(array $request): array
+	public function handle(array $request): JsonResponse
 	{
-		$response = $this->usecase->execute($request['email'], $request['password']);
-
-		return $response->toArray();
+		try {
+			$response = $this->usecase->execute($request['email'], $request['password']);
+			return new JsonResponse([
+				'data' => $response->toArray()
+			], 200);
+		} catch (InvalidCredentialsException $e) {
+			return new JsonResponse([
+				'error' => $e->getMessage()
+			], 401);
+		} catch (\Throwable $e) {
+			return new JsonResponse([
+				'error'  => $e->getMessage()
+			], 500);	
+		}
 	}
 }
