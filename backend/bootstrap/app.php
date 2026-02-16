@@ -7,7 +7,7 @@ use App\Core\Database\Database;
 use App\Modules\Auth\Domain\Entities\User;
 use App\Modules\Auth\Infrastructure\Persistence\SQLite\SQLiteUserRepository;
 use App\Modules\Auth\Fakes\FakeTokenGenerator;
-use App\Modules\Auth\Application\UseCases\LoginUseCase;
+use App\Modules\Auth\Application\UseCases\AuthenticateUserUseCase;
 use App\Modules\Auth\Presentation\Controllers\LoginController;
 
 $database = new Database(__DIR__ . '/../storage/database.sqlite');
@@ -26,12 +26,12 @@ $user = User::create(
 
 $userRepository->save($user);
 
-$loginUseCase = new LoginUseCase(
+$authenticateUserUseCase = new AuthenticateUserUseCase(
 	$userRepository,
 	$tokenGenerator
 );
 
 // Registrar dependências do controller
-$router->bind(LoginController::class, fn() => new LoginController($loginUseCase));
+$router->bind(LoginController::class, fn() => new LoginController($authenticateUserUseCase));
 
 return $router;

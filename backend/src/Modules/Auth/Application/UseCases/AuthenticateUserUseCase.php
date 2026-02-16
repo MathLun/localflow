@@ -7,7 +7,7 @@ use App\Modules\Auth\Application\DTO\LoginResponse;
 use App\Modules\Auth\Domain\Repositories\UserRepositoryInterface;
 use App\Modules\Auth\Domain\Exceptions\InvalidCredentialsException;
 
-class LoginUseCase
+class AuthenticateUserUseCase
 {
 	public function __construct(
 		private UserRepositoryInterface $userRepository,

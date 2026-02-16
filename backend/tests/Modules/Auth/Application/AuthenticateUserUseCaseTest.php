@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Auth\Application\UseCases\LoginUseCase;
+use App\Modules\Auth\Application\UseCases\AuthenticateUserUseCase;
 use App\Modules\Auth\Fakes\FakeTokenGenerator;
 use App\Modules\Auth\Domain\Entities\User;
 use App\Modules\Auth\Domain\Exceptions\InvalidCredentialsException;
@@ -20,7 +20,7 @@ $user = User::create(
 
 $repository->save($user);
 
-$usecase = new LoginUseCase(
+$usecase = new AuthenticateUserUseCase(
 	$repository, 
 	$tokenGenerator
 );
@@ -77,4 +77,4 @@ assertTrue(
 	'Deve retornar o token correto'
 );
 
-echo "\n 🎉 All LoginUseCase tests passed.\n\n";
+echo "\n 🎉 All AuthenticateUserUseCase tests passed.\n\n";

@@ -1,7 +1,7 @@
 <?php
 
 use App\Modules\Auth\Presentation\Controllers\LoginController;
-use App\Modules\Auth\Application\UseCases\LoginUseCase;
+use App\Modules\Auth\Application\UseCases\AuthenticateUserUseCase;
 use App\Modules\Auth\Infrastructure\Persistence\InMemory\InMemoryUserRepository;
 use App\Modules\Auth\Fakes\FakeTokenGenerator;
 use App\Modules\Auth\Domain\Entities\User;
@@ -9,7 +9,7 @@ use App\Modules\Auth\Domain\Exceptions\InvalidCredentialsException;
 
 $userRepository = new InMemoryUserRepository();
 $tokenGenerator = new FakeTokenGenerator();
-$usecase = new LoginUseCase(
+$usecase = new AuthenticateUserUseCase(
 	$userRepository, 
 	$tokenGenerator
 );
