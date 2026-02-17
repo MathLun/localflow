@@ -121,11 +121,41 @@ php -S localhost:8000 -t public
 
 ## Rodando os testes
 
-Para garantir que todas as features implementadas estão funcionando corretamente, incluindo o Login Flow, você pode rodar os testes automáticos:
+O projeto possui dois níveis de testes automatizados:
+
+### 🧪 Testes Unitários e de Integração
+
+Validam regras de negócio, repositórios e controllers de forma isolada.
+
 ```bash
 cd backend
 php tests/TestRunner.php
 ```
+
+### 🌐 Testes End-to-End (E2E)
+
+Executam requisições HTTP reais contra a aplicação, validando o fluxo complexo. (ex: LoginFlow).
+
+Antes de rodar, inicie o servidor PHP embutido:
+
+```bash
+cd backend
+php -S localhost:8000 -t public
+```
+
+Em outro terminal, execute:
+
+```bash
+php tests/E2ETestRunner.php
+```
+
+### 📌 Observações
+
+Os testes E2E validam:
+
+- Status code da resposta
+- Estrutura do JSON retornando
+- Fluxo completo de autenticação
 
 ## 🔐 Endpoints disponíveis
 
