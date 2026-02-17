@@ -278,7 +278,7 @@ Garantir:
 **Fase 4 - Teste End-to-End**
 
 - [x] Cliente HTTP de Teste
-- [x] Fluxo completo de registro
+- [ ] Fluxo completo de registro
 - [x] Fluxo completo de autenticação
 
 ## Diretrizes Arquiteturais
