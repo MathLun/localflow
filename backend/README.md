@@ -186,17 +186,67 @@ O comando:
 
 ## Testes
 
-Testes automatizados garantem estabilidade da camada de infraestrutura.
+Os testes automatizados garantem estabilidade das regras de negócio, infraestrutura e fluxos completos da aplicação.
 
-Atualmente implementado:
+### ✅️ Atualmente implementação
 
-- Teste de integração do SQLiteUserRepository
-
-Futuramente:
-
+- Testes de Domínio (Entidades)
 - Testes de UseCase
-- Testes E2E
-- Testes por módulos
+- Testes de Infraestrutura
+  - InMemoryUserRepository
+  - SQLiteUserRepository
+- Testes de integração (LoginController)
+- Testes End-to-End (LoginFlow)
+
+### 📁 Estrutura de Testes
+
+```bash
+.
+├── E2E
+│   └── Auth
+│       └── LoginFlowE2ETest.php
+├── E2ETestRunner.php
+├── Modules
+│   └── Auth
+│       ├── Application
+│       │   └── AuthenticateUserUseCaseTest.php
+│       ├── Domain
+│       │   └── UserTest.php
+│       ├── Infrastructure
+│       │   ├── InMemoryUserRepositoryTest.php
+│       │   └── SQLiteUserRepositoryTest.php
+│       └── Presentation
+│           └── LoginControllerIntegrationTest.php
+├── Support
+│   └── TestHelpers.php
+└── TestRunner.php
+```
+### 🧪 Executando os testes
+
+**Unitários e Integrações**
+```bash
+php tests/TestRunner.php
+```
+
+**End-to-End**
+
+inicie o servidor
+```bash
+php -S localhost:8000 -t public
+```
+
+Em outro terminal:
+```bash
+php tests/E2ETestRunner.php
+```
+
+### 🎯 Objetivo
+
+Garantir:
+
+- Isolamento de regras de negócio
+- Confiabilidade da infraestrutura
+- Validação de fluxos completos via HTTP real
 
 ## Roadmap
 
