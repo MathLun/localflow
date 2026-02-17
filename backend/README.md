@@ -196,7 +196,10 @@ Os testes automatizados garantem estabilidade das regras de negócio, infraestru
   - InMemoryUserRepository
   - SQLiteUserRepository
 - Testes de integração (LoginController)
-- Testes End-to-End (LoginFlow)
+- Testes End-to-End:
+  - Login com sucesso
+  - Login com credenciais inválidas (401)
+  - Login com payload inválido (400)
 
 ### 📁 Estrutura de Testes
 
