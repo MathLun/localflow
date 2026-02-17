@@ -136,6 +136,12 @@ php tests/TestRunner.php
 
 Executam requisições HTTP reais contra a aplicação, validando o fluxo complexo. (ex: LoginFlow).
 
+Atualmente cobrem:
+
+- Login com sucesso
+- Credenciais inválidas (401)
+- Payload inválido ou campos obrigatórios ausente (400)
+
 Antes de rodar, inicie o servidor PHP embutido:
 
 ```bash
