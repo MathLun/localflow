@@ -16,7 +16,17 @@ class LoginController
 
 	public function handle(array $request): JsonResponse
 	{
+
 		try {
+			if (
+				!isset($request['email']) || 
+				!isset($request['password']) ||
+				trim($request['email']) === '' ||
+				trim($request['password']) === ''
+			) {
+				return new JsonResponse([ 'error' => 'Email e senha são obrigatórios'], 400);
+			}
+
 			$response = $this->usecase->execute($request['email'], $request['password']);
 			return new JsonResponse([
 				'data' => $response->toArray()
@@ -31,4 +41,5 @@ class LoginController
 			], 500);	
 		}
 	}
+
 }
