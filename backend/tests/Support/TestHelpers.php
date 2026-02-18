@@ -37,7 +37,8 @@ function assertThrows(callable $fn, string $expectedException, string $message):
         exit(1);
     } catch (\Throwable $e) {
         if (!$e instanceof $expectedException) {
-            echo "❌ FAIL: {$message} (unexpected exception " . get_class($e) . ")\n";
+		echo "❌ FAIL: {$message} (unexpected exception " . get_class($e) . ")\n";
+		echo "Error Temporal: ".$e->getMessage();
             exit(1);
         }
 

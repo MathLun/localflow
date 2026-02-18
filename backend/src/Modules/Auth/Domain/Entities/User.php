@@ -17,6 +17,8 @@ final class User
 
 	private const ALLOWED_ROLES = ['ADMIN', 'RESTAURANT', 'STAFF'];
 
+	private const DEFAULT_ROLE = 'RESTAURANT';
+
 	private function __construct(
 		string $id,
 		string $email,
@@ -75,6 +77,20 @@ final class User
 		);
 	}
 
+	public static function register(
+		string $email,
+		string $passwordHash
+	): self {
+		return new self(
+			id: self::generateUuid(),
+			email: $email,
+			passwordHash: $passwordHash,
+			role: self::DEFAULT_ROLE,
+			createdAt: self::now(),
+			updatedAt: self::now()
+		);
+	}
+
 	public function validateEmail(string $email): void
 	{
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -104,6 +120,11 @@ final class User
 	private static function now(): string
 	{
 		return (new DateTimeImmutable('now', new DateTimeZone('America/Sao_Paulo')))->format('Y-m-d H:i:s');
+	}
+
+	private static function generateUuid(): string
+	{
+		return bin2hex(random_bytes(6));
 	}
 
 	public function id(): string
