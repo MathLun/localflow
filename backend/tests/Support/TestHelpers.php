@@ -49,6 +49,7 @@ function assertThrows(callable $fn, string $expectedException, string $message):
 
 function resetDatabase(): void
 {
+    setupDatabase();
     $backendPath = dirname(dirname(__DIR__));
     $dbPath = $backendPath . '/storage/database.sqlite';
 
@@ -86,4 +87,16 @@ function createUser(
 		'created_at' => date('Y-m-d H:i:s'),
 		'updated_at' => date('Y-m-d H:i:s')
 	]);
+}
+
+function setupDatabase(): void
+{
+	$backendPath = dirname(dirname(__DIR__));
+	$storagePath = $backendPath . '/storage';
+	if (!is_dir($storagePath)) {
+    		mkdir($storagePath, 0777, true); // cria storage se não existir
+	}
+
+	$migratePath = $backendPath . '/bin/migrate.php';
+	shell_exec("php {$migratePath}"); // cria as tabelas
 }
