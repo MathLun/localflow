@@ -32,7 +32,7 @@ jobs:
         run: php backend/tests/TestRunner.php
 
       - name: Iniciar servidor PHP
-        run: php -S localhost:8000 -t backend/public > /dev/null 2>&1 &
+        run: php -S localhost:8001 -t backend/public > /dev/null 2>&1 &
 
       - name: Aguardar servidor subir
         run: sleep 2
