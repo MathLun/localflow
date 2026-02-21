@@ -107,4 +107,16 @@ function setupDatabase(): void
 
 	$migratePath = $backendPath . '/bin/migrate.php';
 	shell_exec("php {$migratePath}"); // cria as tabelas
+	$dbPath = $storagePath . '/database.sqlite';
+    	$pdo = new PDO('sqlite:' . $dbPath);
+    	$pdo->exec("
+        CREATE TABLE IF NOT EXISTS users (
+            id TEXT PRIMARY KEY,
+            email TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            role TEXT NOT NULL,
+            created_at TEXT,
+            updated_at TEXT
+        )
+    	");
 }
