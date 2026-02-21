@@ -22,7 +22,8 @@ Cada módulo é dividido em quatro camadas:
 
 ## Módulos Implementados
 - **Auth**
--- Login Flow
+  - Login Flow (com Controller, Integração e E2E)
+  - Register UseCase (nível de aplicação com testes unitários)
 
 ## 🏗Estrutura Inicial do Projeto
 
@@ -30,82 +31,18 @@ Este projeto utiliza PHP Puro, com uma arquitetura inspirada em boas práticas m
 
 A estrutura atual está organizada da seguinte forma:
 ```text
-backend
+.
+├── CHANGELOG.md
 ├── README.md
-├── bin
-│   ├── make_migration.php
-│   └── migrate.php
-├── bootstrap
-│   └── app.php
-├── docs
-│   ├── modules
-│   │   └── auth
-│   │       └── login-flow.md
-│   └── testing.md
-├── public
-│   └── index.php
-├── src
-│   ├── Core
-│   │   ├── Database
-│   │   │   ├── Database.php
-│   │   │   └── Migrations
-│   │   │       ├── MigrationGenerator.php
-│   │   │       └── MigrationRunner.php
-│   │   └── Routing
-│   │       └── Router.php
-│   ├── Modules
-│   │   ├── Auth
-│   │   │   ├── Application
-│   │   │   │   ├── Contracts
-│   │   │   │   │   └── TokenGeneratorInterface.php
-│   │   │   │   ├── DTO
-│   │   │   │   │   └── LoginResponse.php
-│   │   │   │   └── UseCases
-│   │   │   │       └── AuthenticateUserUseCase.php
-│   │   │   ├── Domain
-│   │   │   │   ├── Entities
-│   │   │   │   │   └── User.php
-│   │   │   │   ├── Exceptions
-│   │   │   │   │   ├── InvalidCredentialsException.php
-│   │   │   │   │   └── InvalidUserException.php
-│   │   │   │   └── Repositories
-│   │   │   │       └── UserRepositoryInterface.php
-│   │   │   ├── Fakes
-│   │   │   │   └── FakeTokenGenerator.php
-│   │   │   ├── Infrastructure
-│   │   │   │   └── Persistence
-│   │   │   │       ├── InMemory
-│   │   │   │       │   └── InMemoryUserRepository.php
-│   │   │   │       └── SQLite
-│   │   │   │           └── SQLiteUserRepository.php
-│   │   │   └── Presentation
-│   │   │       └── Controllers
-│   │   │           └── LoginController.php
-│   │   ├── Orders
-│   │   ├── Products
-│   │   ├── Restaurants
-│   │   └── System
-│   └── Support
-│       └── Autoload.php
-├── storage
-│   ├── database.sqlite
-│   └── migrations
-│       └── 20260214010310_create_user_table.sql
-└── tests
-    ├── Modules
-    │   └── Auth
-    │       ├── Application
-    │       │   └── AuthenticateUserUseCaseTest.php
-    │       ├── Domain
-    │       │   └── UserTest.php
-    │       ├── Infrastructure
-    │       │   ├── InMemoryUserRepositoryTest.php
-    │       │   └── SQLiteUserRepositoryTest.php
-    │       └── Presentation
-    │           └── LoginControllerIntegrationTest.php
-    ├── Support
-    │   └── TestHelpers.php
-    └── TestRunner.php
+└── backend
+    ├── README.md
+    ├── bin
+    ├── bootstrap
+    ├── docs
+    ├── public
+    ├── src
+    ├── storage
+    └── tests
 ```
 
 ## Executando o projeto
@@ -201,6 +138,7 @@ http://localhost:8000/auth/login \
 
 ### Fase 2 - MVP Funcional
 - [x] Sistema de autenticação (Login Flow)
+- [x] UseCase de registro de usuário
 - [x] Integração com banco de dados (SQLite)
 - [x] API REST para login
 - [ ] API REST para pedidos
@@ -216,8 +154,9 @@ http://localhost:8000/auth/login \
 - Baixa dependência externa
 - Preparado para escalar gradualmente
 
-## Documentação
+## 📘 Documentação
 - [Login Flow](backend/docs/modules/auth/login-flow.md)
+- [Register User - (em desenvolvimento)](backend/docs/modules/auth/register-user.md)
 - [Testing Strategy](backend/docs/testing.md)
 
 ## Licença

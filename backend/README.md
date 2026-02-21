@@ -2,93 +2,51 @@
 
 Backend modular estruturado com separação clara de responsabilidades, preparado para suportar múltiplos domínios e módulos de negócio.
 
-O módulo **Auth** é apenas o primeiro módulo implementado.
+O módulo **Auth** é apenas o primeiro módulo implementado e atualmente suporta:
 
-## Arquitetura
+- Registro de usuário (nível Apllication)
+- Autenticação (Login Flow)
+- Persistência via SQLite
+- Testes unitários, integrações e E2E (Login)
 
-O projeto segue princípios de arquitetura em camadas, com foco em baixo acoplamento e alta coesão.
+## 🧠 Arquitetura
 
-Estrutura geral
+O projeto segue o padrão **Modular Monolith**, com arquitetura em camadas:
+
+- **Domain**
+- **Application**
+- **Infrastructure**
+- **Presentation**
+
+Foco em:
+
+- Baixo acoplamento
+- Alta coesão
+- Testabilidade
+- Evolução incremental
+
+## 📁 Estrutura geral
 ```bash
-.
-├── README.md
+backend
 ├── bin
-│   ├── make_migration.php
-│   └── migrate.php
 ├── bootstrap
-│   └── app.php
 ├── docs
-│   ├── modules
-│   │   └── auth
-│   │       └── login-flow.md
-│   └── testing.md
+│   └── modules
 ├── public
-│   └── index.php
 ├── src
 │   ├── Core
-│   │   ├── Database
-│   │   │   ├── Database.php
-│   │   │   └── Migrations
-│   │   │       ├── MigrationGenerator.php
-│   │   │       └── MigrationRunner.php
-│   │   └── Routing
-│   │       └── Router.php
 │   ├── Modules
-│   │   ├── Auth
-│   │   │   ├── Application
-│   │   │   │   ├── Contracts
-│   │   │   │   │   └── TokenGeneratorInterface.php
-│   │   │   │   ├── DTO
-│   │   │   │   │   └── LoginResponse.php
-│   │   │   │   └── UseCases
-│   │   │   │       └── AuthenticateUserUseCase.php
-│   │   │   ├── Domain
-│   │   │   │   ├── Entities
-│   │   │   │   │   └── User.php
-│   │   │   │   ├── Exceptions
-│   │   │   │   │   ├── InvalidCredentialsException.php
-│   │   │   │   │   └── InvalidUserException.php
-│   │   │   │   └── Repositories
-│   │   │   │       └── UserRepositoryInterface.php
-│   │   │   ├── Fakes
-│   │   │   │   └── FakeTokenGenerator.php
-│   │   │   ├── Infrastructure
-│   │   │   │   └── Persistence
-│   │   │   │       ├── InMemory
-│   │   │   │       │   └── InMemoryUserRepository.php
-│   │   │   │       └── SQLite
-│   │   │   │           └── SQLiteUserRepository.php
-│   │   │   └── Presentation
-│   │   │       └── Controllers
-│   │   │           └── LoginController.php
-│   │   ├── Orders
-│   │   ├── Products
-│   │   ├── Restaurants
-│   │   └── System
+│   ├── Shared
 │   └── Support
-│       └── Autoload.php
 ├── storage
-│   ├── database.sqlite
 │   └── migrations
-│       └── 20260214010310_create_user_table.sql
 └── tests
+    ├── E2E
     ├── Modules
-    │   └── Auth
-    │       ├── Application
-    │       │   └── AuthenticateUserUseCaseTest.php
-    │       ├── Domain
-    │       │   └── UserTest.php
-    │       ├── Infrastructure
-    │       │   ├── InMemoryUserRepositoryTest.php
-    │       │   └── SQLiteUserRepositoryTest.php
-    │       └── Presentation
-    │           └── LoginControllerIntegrationTest.php
-    ├── Support
-    │   └── TestHelpers.php
-    └── TestRunner.php
+    └── Support
 ```
 
-### Core
+### 🧩 Core
 
 Contém componentes reutilizáveis e independentes do domínio específico.
 
@@ -100,7 +58,7 @@ inclui:
 
 Não contém regras de negócio específicas.
 
-### Modules
+### 🧱 Modules
 
 Cada domínio do sistema é isolado em cada módulo próprio.
 
@@ -158,7 +116,39 @@ Implementações técnicas:
 
 Implementa contratos definidos pelo domínio ou application.
 
-## Banco de dados
+## 🔐 Módulo Auth
+
+Atualmente contém:
+
+### Domain
+
+- Entidade `User`
+- Exceptions de domínio
+- `UserRepositoryInterface`
+
+### Application
+
+- `AuthenticateUserUseCase`
+- `RegisterUserUseCase`
+- `PasswordHasherInterface`
+
+A camada Application depende apenas de contratos.
+
+### Infrastructure
+
+- `SQLiteUserRepository`
+- `InMemoryUserRepository`
+- `FakeTokenGenerator`
+- `FakePasswordHasher`
+
+Implementa contratos definidos pelo domínio ou aplicação.
+
+### Presentation
+
+- `LoginController`
+- (RegisterController em construção)
+
+## 🗄 Banco de dados
 
 O projeto utiliza SQLite como mecanismo de persistência inicial.
 
@@ -184,22 +174,32 @@ O comando:
 - Cria o banco caso não exista
 - Execute migrations pendentes
 
-## Testes
+## 🧪 Testes
 
-Os testes automatizados garantem estabilidade das regras de negócio, infraestrutura e fluxos completos da aplicação.
+O projeto possui múltiplos níveis de testes.
 
-### ✅️ Atualmente implementação
+### ✅️ Testes Unitários
 
-- Testes de Domínio (Entidades)
-- Testes de UseCase
-- Testes de Infraestrutura
-  - InMemoryUserRepository
-  - SQLiteUserRepository
-- Testes de integração (LoginController)
-- Testes End-to-End:
-  - Login com sucesso
-  - Login com credenciais inválidas (401)
-  - Login com payload inválido (400)
+- Entidades
+- UseCases
+- Contratos
+
+### ✅️ Testes de Infraestrutura
+
+- InMemoryUserRepository
+- SQLiteUserRepository
+
+### Testes de Integração
+
+- LoginController
+
+### ✅️ Testes End-to-End (E2E)
+
+Cobrem o fluxo real de autenticação.
+
+- Login com sucesso
+- Credenciais inválidas (401)
+- Payload inválido (400)
 
 ### 📁 Estrutura de Testes
 
@@ -224,14 +224,27 @@ Os testes automatizados garantem estabilidade das regras de negócio, infraestru
 │   └── TestHelpers.php
 └── TestRunner.php
 ```
-### 🧪 Executando os testes
 
-**Unitários e Integrações**
+### ▶️ Executando o Projeto
+
+**Requisitos**
+
+- PHP 8.2+
+
+**Rodar servidor local**
+```bash
+cd backend
+php -S localhost:8000 -t public
+```
+
+### ▶️ Executando os testes
+
+🧩 **Unitários e Integrações**
 ```bash
 php tests/TestRunner.php
 ```
 
-**End-to-End**
+🌐 **End-to-End**
 
 inicie o servidor
 ```bash
@@ -247,39 +260,54 @@ php tests/E2ETestRunner.php
 
 Garantir:
 
-- Isolamento de regras de negócio
+- Isolamento total do dominio
 - Confiabilidade da infraestrutura
+- Evolução controlada
 - Validação de fluxos completos via HTTP real
+- Facilidade futura de extração para microserviços
+- Segurança desde a base
 
 ## Roadmap
 
-**Fase 1 - Fundação Arquitetural (concluída)**
+**Fase 1 - Fundação Arquitetural** ✅️
 
-- [x] Estrutura Modular
-- [x] Separação em camadas
-- [x] Sistema de migrations
-- [x] Persistência SQLite
-- [x] Repositório para módulo Auth
-- [x] Testes de integração
+- [x] Modular Monolith
+- [x] Migrations
+- [x] SQLite
+- [x] Login Flow
+- [x] Testes E2E de Login
 
-**Fase 2 - Application Layer**
+**Fase 2 - Application Layer** 🔄
 
-- [x] Implementação de UseCases (Auth)
+- [x] RegisterUserUseCase
+- [x] AuthenticateUserUseCase
+- [x] RegisterRequest (DTO)
+- [x] RegisterResponse (DTO)
+- [x] LoginResponse (DTO)
+- [x] PasswordHasherInterface (Contract)
+- [x] TokenGeneratorInterface (Contract)
 - [x] Hash de senha
 - [x] Recuperação por e-mail
 - [x] Validação de domínio
+- [x] Tratamento de exceções de negócio
 
-**Fase 3 - Interface HTTP**
+**Fase 3 - Interface HTTP** 🌐
 
-- [x] Controllers
+- [x] Controllers (LoginController, RegisterController)
 - [x] Endpoint REST
 - [x] Serialização JSON
 
-**Fase 4 - Teste End-to-End**
+**Fase 4 - Teste End-to-End** 🧪
 
 - [x] Cliente HTTP de Teste
-- [ ] Fluxo completo de registro
+- [x] Fluxo completo de registro
 - [x] Fluxo completo de autenticação
+
+**Fase 5 - Expansão de Domínios** 🧱
+
+- Orders
+- Products
+- Restaurants
 
 ## Diretrizes Arquiteturais
 
@@ -289,7 +317,7 @@ O backend foi projetado para:
 - Manter domínio isolado
 - Permitir troca de infraestrutura
 - Suportar evolução incremental
-- Garantir testabilidade
+- Garantir altas cobertura de testes.
 
 Auth é apenas o módulo inicial.
 

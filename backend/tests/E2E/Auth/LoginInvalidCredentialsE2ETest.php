@@ -1,5 +1,8 @@
 <?php
 
+resetDatabase();
+createUser();
+
 $ch = curl_init('http://localhost:8001/auth/login');
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
