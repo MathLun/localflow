@@ -4,6 +4,8 @@ use App\Core\Database\Database;
 use App\Modules\Auth\Domain\Entities\User;
 use App\Modules\Auth\Infrastructure\Persistence\SQLite\SQLiteUserRepository;
 
+resetDatabase();
+
 echo "Running SQLiteUserRepository tests...\n\n";
 
 $database = new Database(__DIR__ . '/../../../../storage/database.sqlite');
