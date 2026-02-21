@@ -30,3 +30,9 @@ jobs:
 
       - name: Rodar testes
         run: php backend/tests/TestRunner.php
+
+      - name: Iniciar servidor PHP
+        run: php -S localhost:8000 -t backend/public &
+
+      - name: Rodar testes End-to-End
+        run: php backend/tests/E2ETestRunner.php
