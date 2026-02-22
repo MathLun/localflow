@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop, chore/ci ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Verificar a versão do PHP
+        run: php -v
+
+      - name: Criar diretório storage
+        run: mkdir -p backend/storage
+
+      - name: Rodar migrations
+        run: php backend/bin/migrate.php
+
+      - name: Rodar testes
+        run: php backend/tests/TestRunner.php
+
+      - name: Iniciar servidor PHP
+        run: php -S localhost:8001 -t backend/public > /dev/null 2>&1 &
+
+      - name: Aguardar servidor subir
+        run: sleep 2
+
+      - name: Rodar testes End-to-End
+        run: php backend/tests/E2ETestRunner.php
